@@ -480,6 +480,14 @@
     
     if (!CGSizeEqualToSize(_scrollView.contentSize, contentSize))
     {
+        // contentSize is changed, make sure the content offset is adjusted based on the current item index
+        CGPoint newContentOffset;
+        if (_vertical) {
+            newContentOffset = CGPointMake(_scrollView.contentOffset.x, _currentItemIndex * _itemSize.height);
+        } else {
+            newContentOffset = CGPointMake(_currentItemIndex * _itemSize.width, _scrollView.contentOffset.y);
+        }
+        [self setContentOffsetWithoutEvent:newContentOffset];
         _scrollView.contentSize = contentSize;
     }
 }
